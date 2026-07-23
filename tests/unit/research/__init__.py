@@ -1,0 +1,1 @@
+"""Tests for the research synthesis module (Phase 5 Checkpoint 1)."""
