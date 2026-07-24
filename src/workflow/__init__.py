@@ -12,10 +12,12 @@ Module structure:
 - pipeline.py: Pipeline orchestrator
 - update_rules.py: Workflow Model Rules 1–4
 - cardinality.py: Cardinality rules
-- persistence.py: Persistence interface
 
 The workflow module orchestrates; domain rules live in src/core/.
 All state transitions go through src/core/lifecycle.
+
+The former ``src.workflow.persistence`` prototype is intentionally not
+re-exported. New code uses ``src.persistence.Store``.
 """
 
 from __future__ import annotations
