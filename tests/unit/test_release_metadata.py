@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 
 import src.workflow as workflow
-from setuptools.discovery import PEP420PackageFinder
 
 
 ROOT = Path(__file__).parents[2]
@@ -38,14 +37,12 @@ def test_legacy_workflow_persistence_is_not_publicly_exported() -> None:
 
 
 def test_package_discovery_preserves_public_src_namespace() -> None:
-    packages = set(PEP420PackageFinder.find(ROOT, include=["src*"]))
-    public_packages = {
-        "src.core",
-        "src.workflow",
-        "src.persistence",
-        "src.runtime",
-        "src.research",
-        "src.reports",
-    }
-    assert public_packages <= packages
-    assert not {"core", "workflow", "persistence", "runtime", "research", "reports"} & packages
+    discovery = PYPROJECT.split("[tool.setuptools.packages.find]", 1)[1].split(
+        "[tool.pytest.ini_options]", 1
+    )[0]
+    assert 'where = ["."]' in discovery
+    assert 'include = ["src*"]' in discovery
+    assert "namespaces = true" in discovery
+
+    for package in ("core", "workflow", "persistence", "runtime", "research", "reports"):
+        assert (ROOT / "src" / package / "__init__.py").is_file()
