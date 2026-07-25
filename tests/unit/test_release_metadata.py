@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 
 import src.workflow as workflow
+from setuptools.discovery import PEP420PackageFinder
 
 
 ROOT = Path(__file__).parents[2]
@@ -34,3 +35,17 @@ def test_declared_python_floor_matches_used_runtime_features() -> None:
 
 def test_legacy_workflow_persistence_is_not_publicly_exported() -> None:
     assert "persistence" not in workflow.__all__
+
+
+def test_package_discovery_preserves_public_src_namespace() -> None:
+    packages = set(PEP420PackageFinder.find(ROOT, include=["src*"]))
+    public_packages = {
+        "src.core",
+        "src.workflow",
+        "src.persistence",
+        "src.runtime",
+        "src.research",
+        "src.reports",
+    }
+    assert public_packages <= packages
+    assert not {"core", "workflow", "persistence", "runtime", "research", "reports"} & packages

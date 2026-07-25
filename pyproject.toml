@@ -42,7 +42,9 @@ dev = [
 "Roadmap" = "docs/IMPLEMENTATION_ROADMAP.md"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["src*"]
+namespaces = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests/unit"]
