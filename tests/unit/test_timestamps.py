@@ -1,6 +1,6 @@
 """Tests for the timestamps module (INV-10)."""
 
-from datetime import UTC, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -19,9 +19,9 @@ class TestNowUTC:
         assert is_valid_iso8601_utc(ts)
 
     def test_close_to_current_time(self) -> None:
-        before = datetime.now(UTC)
+        before = datetime.now(timezone.utc)
         ts = now_utc()
-        after = datetime.now(UTC)
+        after = datetime.now(timezone.utc)
         parsed = parse_iso8601_utc(ts)
         assert before - timedelta(seconds=1) <= parsed <= after + timedelta(seconds=1)
 

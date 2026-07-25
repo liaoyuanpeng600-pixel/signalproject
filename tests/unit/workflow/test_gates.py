@@ -3,7 +3,7 @@
 Covers all 23 gates organized by stage.
 """
 
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -117,11 +117,11 @@ class TestS1G2:
 
 class TestS1G3:
     def test_passes_with_valid_timestamp(self) -> None:
-        from datetime import UTC, datetime, timedelta
+        from datetime import datetime, timedelta, timezone
 
         ctx = PipelineContext()
         # Use a timestamp 1 hour ago (in the past, not in future, not too old)
-        recent = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
+        recent = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
         ctx.candidates.append(
             CandidateObservation(
                 source_id=new_id(),
@@ -136,7 +136,7 @@ class TestS1G3:
 
     def test_fails_with_future_timestamp(self) -> None:
         ctx = PipelineContext()
-        future = (datetime.now(UTC) + timedelta(days=1)).isoformat()
+        future = (datetime.now(timezone.utc) + timedelta(days=1)).isoformat()
         ctx.candidates.append(
             CandidateObservation(
                 source_id=new_id(),
@@ -152,7 +152,7 @@ class TestS1G3:
 
     def test_fails_with_old_timestamp(self) -> None:
         ctx = PipelineContext()
-        old = (datetime.now(UTC) - timedelta(days=60)).isoformat()
+        old = (datetime.now(timezone.utc) - timedelta(days=60)).isoformat()
         ctx.candidates.append(
             CandidateObservation(
                 source_id=new_id(),

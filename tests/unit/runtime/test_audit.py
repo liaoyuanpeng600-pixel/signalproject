@@ -1,6 +1,6 @@
 """Tests for the AuditLogger."""
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 import pytest
 
@@ -53,14 +53,14 @@ class TestRecord:
 
     def test_record_auto_timestamp_is_iso8601_utc(self) -> None:
         logger = AuditLogger()
-        before = datetime.now(UTC)
+        before = datetime.now(timezone.utc)
         record = logger.record(
             cycle_id="cycle-1",
             category=EventCategory.CYCLE,
             component="executor",
             event_type="cycle_start",
         )
-        after = datetime.now(UTC)
+        after = datetime.now(timezone.utc)
         # Verify the timestamp is between before and after
         ts = datetime.fromisoformat(record.timestamp)
         assert before <= ts <= after

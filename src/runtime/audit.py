@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -81,7 +81,7 @@ class AuditLogger:
         The log is append-only: records cannot be modified or deleted.
         """
         record = AuditRecord(
-            timestamp=timestamp or datetime.now(UTC).isoformat(),
+            timestamp=timestamp or datetime.now(timezone.utc).isoformat(),
             cycle_id=cycle_id,
             category=category,
             component=component,

@@ -255,14 +255,16 @@ class SourceObservationStage(Stage):
                         continue
 
                     try:
-                        from datetime import UTC, datetime
+                        from datetime import datetime, timezone
 
                         ts = datetime.fromisoformat(candidate.source_timestamp)
-                        if ts.tzinfo is None or ts > datetime.now(UTC):
+                        if ts.tzinfo is None or ts > datetime.now(timezone.utc):
                             # S1-G3 fail
                             context.flagged_candidates.append(candidate)
                             continue
-                        age_days = (datetime.now(UTC) - ts.astimezone(UTC)).days
+                        age_days = (
+                            datetime.now(timezone.utc) - ts.astimezone(timezone.utc)
+                        ).days
                         if age_days > 30:
                             context.flagged_candidates.append(candidate)
                             continue

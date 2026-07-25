@@ -8,7 +8,7 @@ Example: "2026-07-18T12:34:56.789012+00:00"
 
 from __future__ import annotations
 
-from datetime import UTC, datetime, timezone
+from datetime import datetime, timezone
 
 
 def now_utc() -> str:
@@ -17,7 +17,7 @@ def now_utc() -> str:
     Returns:
         ISO8601 UTC timestamp string with microsecond precision.
     """
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def utc_from_timestamp(timestamp: datetime) -> str:
@@ -27,8 +27,8 @@ def utc_from_timestamp(timestamp: datetime) -> str:
     it is converted to UTC.
     """
     if timestamp.tzinfo is None:
-        timestamp = timestamp.replace(tzinfo=UTC)
-    return timestamp.astimezone(UTC).isoformat()
+        timestamp = timestamp.replace(tzinfo=timezone.utc)
+    return timestamp.astimezone(timezone.utc).isoformat()
 
 
 def parse_iso8601_utc(value: str) -> datetime:
@@ -48,7 +48,7 @@ def parse_iso8601_utc(value: str) -> datetime:
             f"Timestamp must be timezone-aware (UTC): {value!r}"
         )
 
-    return parsed.astimezone(UTC)
+    return parsed.astimezone(timezone.utc)
 
 
 def is_valid_iso8601_utc(value: str) -> bool:

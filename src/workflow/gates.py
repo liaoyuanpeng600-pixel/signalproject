@@ -22,7 +22,7 @@ in domain objects." Gates encode *workflow rules* (when to advance), not
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from src.core.ids import ID
 from src.core.invariants import assert_inv_10
@@ -131,7 +131,7 @@ class S1G3TimestampPlausibility(Gate):
         return "S1-G3"
 
     def validate(self, context: PipelineContext) -> GateResult:
-        now = datetime.now(UTC)
+        now = datetime.now(timezone.utc)
         for c in context.candidates:
             try:
                 ts = datetime.fromisoformat(c.source_timestamp)
@@ -143,7 +143,7 @@ class S1G3TimestampPlausibility(Gate):
                 return GateResult.fail(
                     f"S1-G3: candidate {c.source_id} timestamp in the future"
                 )
-            age_days = (now - ts.astimezone(UTC)).days
+            age_days = (now - ts.astimezone(timezone.utc)).days
             if age_days > 30:
                 return GateResult.fail(
                     f"S1-G3: candidate {c.source_id} timestamp is {age_days} days old"
