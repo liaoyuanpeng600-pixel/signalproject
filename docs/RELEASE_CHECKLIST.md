@@ -7,7 +7,7 @@
 - [x] Supported Python CI matrix passes
 - [x] Version metadata is consistent
 - [x] README reflects current capabilities
-- [ ] Release notes are prepared
+- [x] Release notes are prepared
 - [x] Wheel and sdist build successfully
 - [x] Twine check passes
 - [x] Wheel installs in a clean environment
