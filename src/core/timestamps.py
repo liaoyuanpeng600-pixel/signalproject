@@ -37,8 +37,9 @@ def parse_iso8601_utc(value: str) -> datetime:
     Raises:
         ValueError: If the string is not a valid ISO8601 timestamp.
     """
+    normalized = f"{value[:-1]}+00:00" if value.endswith("Z") else value
     try:
-        parsed = datetime.fromisoformat(value)
+        parsed = datetime.fromisoformat(normalized)
     except ValueError as e:
         raise ValueError(f"Invalid ISO8601 timestamp: {value!r}") from e
 
