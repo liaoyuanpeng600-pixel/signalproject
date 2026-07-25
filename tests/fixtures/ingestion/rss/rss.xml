@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Signal Fixture Feed</title>
+    <link>https://example.com/</link>
+    <description>Offline test feed</description>
+    <item>
+      <guid>item-2</guid>
+      <title>Second item</title>
+      <link>https://example.com/item-2</link>
+      <pubDate>Fri, 25 Jul 2026 12:00:00 +0000</pubDate>
+      <description>Second fixture observation.</description>
+    </item>
+    <item>
+      <guid>item-1</guid>
+      <title>First item</title>
+      <link>https://example.com/item-1</link>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 +0000</pubDate>
+      <description>First fixture observation.</description>
+    </item>
+  </channel>
+</rss>

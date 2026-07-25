@@ -1,0 +1,21 @@
+[
+  {
+    "external_id": "filing-001",
+    "canonical_uri": "https://example.com/filings/001",
+    "published_at": "2026-07-23T09:00:00+00:00",
+    "media_type": "text/plain",
+    "title": "Example Filing",
+    "document_version": "1",
+    "content_file": "filing-001.txt"
+  },
+  {
+    "external_id": "filing-002",
+    "canonical_uri": "https://example.com/filings/002",
+    "published_at": "2026-07-24T09:00:00+00:00",
+    "media_type": "text/plain",
+    "title": "Example Filing Amendment",
+    "document_version": "2",
+    "supersedes_external_id": "filing-001",
+    "content_file": "filing-002.txt"
+  }
+]
