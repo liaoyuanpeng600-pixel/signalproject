@@ -98,3 +98,6 @@ ADRs are never deleted. Superseded ADRs are kept for history; their state and `S
 | [ADR-004](ADR-004-override-append-only.md) | OverrideRecord is append-only | accepted | 2026-07-16 |
 | [ADR-005](ADR-005-superseded-status.md) | `superseded` as a lifecycle status | accepted | 2026-07-16 |
 | [ADR-006](ADR-006-decay-worker.md) | Decay worker is a background job, not an agent | accepted | 2026-07-16 |
+| [ADR-007](ADR-007-phase7-foundation-decisions.md) | Phase 7 foundation decisions | accepted | 2026-07-25 |
+| [ADR-008](ADR-008-phase7-persistence-decisions.md) | Phase 7 persistence decisions | accepted | 2026-07-25 |
+| [ADR-009](ADR-009-phase7-runtime-composition-and-worker-boundary.md) | Phase 7 runtime composition and WorkItem worker boundary | accepted | 2026-07-26 |
