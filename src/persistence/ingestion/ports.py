@@ -6,6 +6,16 @@ from typing import Protocol
 
 from src.core.ids import ID
 from src.ingestion.models import IngestionCheckpoint, RawDocument
+from src.persistence.ingestion.lifecycle import (
+    CompleteWorkCommand,
+    FailTerminalWorkCommand,
+    RenewLeaseCommand,
+    RetryWorkCommand,
+    WorkClaim,
+    WorkClaimOutcome,
+    WorkClaimRequest,
+    WorkTransitionResult,
+)
 from src.persistence.ingestion.models import (
     CollectionCommitCommand,
     CollectionCommitResult,
@@ -108,4 +118,43 @@ class CollectionPersistencePort(Protocol):
         Connector I/O and partial batches are outside this boundary. The
         application never receives a connection or transaction object.
         """
+        ...
+
+
+class WorkItemLifecyclePort(Protocol):
+    """Apply owner-conditional durable WorkItem lifecycle transitions."""
+
+    def claim_next(
+        self,
+        request: WorkClaimRequest,
+    ) -> WorkClaimOutcome | None:
+        """Claim, reclaim, or normalize at most one eligible WorkItem."""
+        ...
+
+    def renew_lease(
+        self,
+        command: RenewLeaseCommand,
+    ) -> WorkClaim:
+        """Extend one current unexpired claim."""
+        ...
+
+    def complete(
+        self,
+        command: CompleteWorkCommand,
+    ) -> WorkTransitionResult:
+        """Complete one current unexpired claim."""
+        ...
+
+    def fail_retryable(
+        self,
+        command: RetryWorkCommand,
+    ) -> WorkTransitionResult:
+        """Schedule retry or dead-letter one exhausted retryable claim."""
+        ...
+
+    def fail_terminal(
+        self,
+        command: FailTerminalWorkCommand,
+    ) -> WorkTransitionResult:
+        """Dead-letter one intrinsically terminal claim."""
         ...

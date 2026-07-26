@@ -14,8 +14,14 @@ from src.persistence.ingestion import (
     PayloadCompatibilityError,
     PersistenceError,
     PersistenceOperationalError,
+    WorkClaimLostError,
+    WorkInvalidTransitionError,
     WorkItemConflictError,
+    WorkItemLifecyclePort,
     WorkItemRepository,
+    WorkLifecycleError,
+    WorkLifecycleInvariantError,
+    WorkLifecyclePolicyError,
 )
 
 
@@ -28,6 +34,11 @@ def test_persistence_errors_have_one_stable_base() -> None:
         WorkItemConflictError,
         PayloadCompatibilityError,
         MigrationCompatibilityError,
+        WorkLifecycleError,
+        WorkClaimLostError,
+        WorkInvalidTransitionError,
+        WorkLifecyclePolicyError,
+        WorkLifecycleInvariantError,
     )
 
     assert all(issubclass(error_type, PersistenceError) for error_type in error_types)
@@ -40,6 +51,7 @@ def test_repository_ports_are_protocols() -> None:
         DeduplicationRepository,
         WorkItemRepository,
         CollectionPersistencePort,
+        WorkItemLifecyclePort,
     )
 
     assert all(getattr(port, "_is_protocol", False) for port in ports)
@@ -73,6 +85,31 @@ def test_atomic_port_exposes_no_transaction_argument() -> None:
     signature = inspect.signature(CollectionPersistencePort.commit_collection)
 
     assert tuple(signature.parameters) == ("self", "command")
+
+
+def test_lifecycle_port_has_exact_five_method_surface() -> None:
+    public = {
+        name
+        for name, value in vars(WorkItemLifecyclePort).items()
+        if callable(value) and not name.startswith("_")
+    }
+
+    assert public == {
+        "claim_next",
+        "renew_lease",
+        "complete",
+        "fail_retryable",
+        "fail_terminal",
+    }
+    expected_parameters = {
+        "claim_next": ("self", "request"),
+        "renew_lease": ("self", "command"),
+        "complete": ("self", "command"),
+        "fail_retryable": ("self", "command"),
+        "fail_terminal": ("self", "command"),
+    }
+    for name, parameters in expected_parameters.items():
+        assert tuple(inspect.signature(getattr(WorkItemLifecyclePort, name)).parameters) == parameters
 
 
 def test_persistence_contract_dependency_boundary() -> None:

@@ -33,3 +33,23 @@ class PayloadCompatibilityError(PersistenceError):
 
 class MigrationCompatibilityError(PersistenceError):
     """Database migration history is incompatible with this application."""
+
+
+class WorkLifecycleError(PersistenceError):
+    """Base class for durable WorkItem lifecycle contract failures."""
+
+
+class WorkClaimLostError(WorkLifecycleError):
+    """Claim authority is missing, stale, mismatched, or expired."""
+
+
+class WorkInvalidTransitionError(WorkLifecycleError):
+    """The requested transition is illegal from the durable lifecycle state."""
+
+
+class WorkLifecyclePolicyError(WorkLifecycleError):
+    """A command and the configured lifecycle policy disagree."""
+
+
+class WorkLifecycleInvariantError(WorkLifecycleError):
+    """Durable lifecycle state is internally inconsistent."""
