@@ -101,3 +101,4 @@ ADRs are never deleted. Superseded ADRs are kept for history; their state and `S
 | [ADR-007](ADR-007-phase7-foundation-decisions.md) | Phase 7 foundation decisions | accepted | 2026-07-25 |
 | [ADR-008](ADR-008-phase7-persistence-decisions.md) | Phase 7 persistence decisions | accepted | 2026-07-25 |
 | [ADR-009](ADR-009-phase7-runtime-composition-and-worker-boundary.md) | Phase 7 runtime composition and WorkItem worker boundary | accepted | 2026-07-26 |
+| [ADR-010](ADR-010-phase7-work-lifecycle.md) | Phase 7 durable WorkItem lifecycle contract | accepted | 2026-07-26 |
